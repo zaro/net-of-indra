@@ -6,6 +6,7 @@ var fs = require('fs'),
     nodes = jade.nodes,
     runtime = require('jade/lib/runtime'),
     selfClosing = require('jade/lib/self-closing'),
+    appConfig = require('./util').appConfig,
     Compiler = jade.Compiler;
 
 var cfg = {
@@ -237,7 +238,7 @@ if (!module.parent) {
 			normalizeLocale = require('./util').normalizeLocale,
 			jsRoot = path.join(argv._[1], '/'),
 			clientJsFiles = require('./client_js_files').clientJsFiles,
-			APP_CONFIG = JSON.parse( fs.readFileSync(__dirname + '/app_config.prod.json'));
+			APP_CONFIG = appConfig(!argv.dev);
 			APP_CONFIG['JS_FILES'] = clientJsFiles(path.join(__dirname + '/prod_root/','js')).map(function(file){
 				return '/js/' + file;
 			});			
