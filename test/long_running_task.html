@@ -1,0 +1,39 @@
+<html>
+<head>
+<script src="../root/js/long_running_task.js" type="text/javascript" language="javascript" charset="utf-8"></script>
+</head>
+<body>
+	Here is the result:
+	<div id="result">
+		
+	</div>
+	<script src="lrt.js" type="text/javascript" language="javascript" charset="utf-8" ></script>
+	<script type="text/javascript" language="javascript" charset="utf-8">
+		var worker = new LongRunningTask({
+			scriptFile: "lrt.js",
+			func : doSomething,
+			funcName : "doSomething",
+			//type: 'timeout',
+		});
+		
+		worker.onError = function (e) {
+			var d = document.getElementById("result");
+			d.innerHTML = e.message;
+		};
+		worker.onChunkFinished = function(data) {
+			var d = document.getElementById("result");
+			d.innerHTML += data + "<br>";
+		}
+		
+		worker.onAllFinished = function() {
+			var d = document.getElementById("result");		
+			var r = worker.results();
+			d.innerHTML += "<hr> total:" + r.length + "<br>";
+		}
+		
+		worker.init({ something: '.'});
+		for(var i=0; i <100; i++){
+			worker.queueWork(i);
+		}
+	</script>
+</body>

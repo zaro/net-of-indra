@@ -1,0 +1,135 @@
+html, body 
+{ 
+    height: 100%;
+    width: 100%;
+    margin: 0px;
+    overflow: hidden;
+    background: #5f5964;
+}
+
+noscript {
+  display: table;
+  width: 100%;
+  height: 100%;
+}
+
+#javascripRequired {
+  text-align:center;
+  vertical-align: middle;
+  display: table-cell;
+}
+
+#mainDiv {
+  background: #3d3644;
+}
+
+.centerButtons {
+	padding: 5px;
+	text-align: center;
+}
+
+.spinner {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+
+#picControlsPane {
+	padding : 3px;
+	display: inline-block;
+	margin: 3px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	width: 250px;
+}
+
+#picControls > * {
+	margin : 3px;
+}
+
+#blurRadius {
+  margin-left: auto;
+  margin-right: auto;
+  width: 95%;
+}
+
+#sourcePictures {
+	max-height: 150px;
+  overflow: auto;
+}
+
+#albumSelect {
+	width: 95%;
+}
+
+.sourcePictureBox {
+  vertical-align: middle;
+  display: table-cell;
+  width: 50px;
+  height: 50px;
+  padding: 2px;
+  float: left;
+}
+
+.sourcePicture {
+	border-radius:3px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.clickable {
+	cursor: pointer;
+}
+
+#moreSourcePictures {
+}
+
+#socialLikePlugins td {
+  text-align:center;
+  vertical-align: middle;
+}
+
+#canvasScroll {
+	padding : 3px;
+	display: inline-block;
+	overflow: auto;
+}
+
+.spacer {
+	height: 10px;
+}
+
+.blockDisplay {
+	display: block;
+}
+
+.centeredButton {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+#picCanvas {
+	font-family: Lucida Grande, Lucida Sans, Arial, sans-serif; font-size: 1.1em;
+}
+
+#imageSavePane {
+	max-width: 90%;
+	max-height: 90%;
+}
+
+#imageToSave {
+  display: block;
+  margin-left: auto;
+  margin-right: auto	
+}
+
+#pictureComment {
+	width: 100%;
+	resize: vertical;
+}
+
+#tagProgress {
+}

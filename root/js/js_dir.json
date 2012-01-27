@@ -1,0 +1,11 @@
+{
+	"preLoad": [
+		"util.js",
+		"spritelib/sprite.js",
+		"spritelib/sprite.easing.js"
+	],
+	"excludeFromBundle": [
+		"long_running_task_stub.js",
+		"brush_palette_findbycolor.js"
+	]
+}

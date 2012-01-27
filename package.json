@@ -1,0 +1,17 @@
+{
+  "name": "inetme" ,
+  "version": "0.0.1" ,
+  "engines": ["node >= 0.4.0"] ,
+  "main": "app.js" ,
+  "dependencies":
+  { 
+   "connect":         ">= 1.4.2",
+   "connect-no-www" : "",
+   "jade":            ">= 0.18.0",
+   "redis-url":       "0.0.1"
+  },
+  "devDependencies": {
+  	"uglify-js":			"",
+  	"optimist":				""
+  }
+}

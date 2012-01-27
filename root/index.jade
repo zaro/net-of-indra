@@ -1,0 +1,157 @@
+!!! 5
+html
+	varstore:
+		block translation_strings
+	include lang/lang_names
+	head
+		meta(charset="utf-8")
+		meta(property="fb:admins",content="1592947086")
+		meta(property="og:locale",content="#{locale}")
+		each l in LANGS
+			meta(property="og:locale:alternate",content="#{l}")
+		meta(property="og:title",content="#{pageTitle}")
+		meta(property="og:type",content="website")
+		meta(property="og:url",content="http://indra-net.me/")
+		meta(property="og:image",content="http://indra-net.me/gems.png")
+		meta(property="og:site_name",content="#{pageName}")
+		meta(property="og:description",content="#{pageDescription}")
+		title #{pageTitle}
+		link(href='http://fonts.googleapis.com/css?family=Ubuntu&subset=latin,cyrillic-ext,greek-ext,greek,cyrillic,latin-ext',rel='stylesheet',type='text/css')
+		link(rel="stylesheet",href="/jqui/css/custom-theme/jquery-ui-1.8.17.custom.css")
+		link(rel="stylesheet",href="/jqui/css/jq_ui_custom.css")
+		link(rel="stylesheet",href="/css/styles.css")
+		script(src="/jqui/js/jquery-1.7.1.min.js")
+		script(src="/jqui/js/jquery-ui-1.8.17.custom.min.js")
+		script(src="/jqui/js/jq_ui_custom.js")
+		each f in JS_FILES
+			script(src='#{f}')
+	varstoreassign:
+		body
+			#fb-root(style="display: none;")
+			#greetingMessagePane(class="ui-widget ui-widget-content ui-corner-all",style="display: none")
+				#langSelectorBox.centerButtons(style="height: 1.4em;")
+					select#langSelector
+						each l in LANGS
+							option(value="#{l}") #{langNames[l]}					
+				div.spacer
+				#browserWarning(class="ui-state-error ui-corner-all",style="display: none")
+					#browserWarningText
+					div.centerButtons
+						#oldBrowserButton
+				#greetingMessage
+					div#greetingMessageText
+					#enterButtons.centerButtons
+						img#spinner(src="/load.gif",class="spinner",alt="#{spinnerAlt}")
+						#enterButton(style="visibility: hidden;")
+						div#fbLogin.centeredButton(scope="read_friendlists,publish_stream,user_photos",class="fb-login-button",style="display: none;")
+			#mainDiv(class="ui-widget ui-widget-content ui-corner-all",style="display: none;")
+				div#picControlsPane(class="ui-widget ui-widget-content ui-corner-all")
+					#pcImagesLoading
+						span#loadingImageLabel
+						img(src="/load.gif",class="spinner",alt="#{spinnerAlt}")
+					#picControls
+						div#selectImageLabel
+						#sourcePictures
+						div#albumSelectBox.centerButtons
+							select#albumSelect
+								option(value='')
+						div.spacer
+						#selectImageSizeLabel
+						div.centerButtons
+							#picSize
+								input#picSizeSmall(type="radio",name="ps",checked="checked")
+								label(for="picSizeSmall") #{picSizeSmall}
+								input#picSizeLarge(type="radio",name="ps")
+								label(for="picSizeLarge") #{picSizeLarge}
+								input#picSizeHuge(type="radio",name="ps")
+								label(for="picSizeHuge") #{picSizeHuge}
+						div.spacer
+						div#blurImageLabel
+						#blurRadius
+						div.spacer
+						div#selectActionLabel
+						#saveImg.blockDisplay
+						#fbUpload.blockDisplay
+						#seeMoreAbout.blockDisplay
+						div.spacer
+						#socialLikePlugins
+							table
+								tr
+									td
+										| <iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Findra-net.me&amp;send=false&amp;layout=button_count&amp;width=100&amp;show_faces=false&amp;action=like&amp;colorscheme=dark&amp;font=lucida+grande&amp;height=21&amp;appId=191053270979217" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
+									td
+										| <g:plusone size="small"></g:plusone>
+				div#canvasScroll(class="ui-widget ui-widget-content ui-corner-all")
+					canvas#picCanvas(width="500",height="500")
+			#imageSavePane(style="display: none;",title="#{imageSavePane}")
+				span#saveAsInstructions
+				img#imageToSave(src='data:,')
+				div.centerButtons
+					#imgSaveClose.centeredButton
+			#uploadToFBPane(style="display: none;",title="#{uploadToFBPane}")
+				#uploadToFBActions
+					#pictureCommentDiv
+						#noSendBinaryWarningDiv(style="display: none;",class="ui-state-highlight ui-corner-all")
+							#noSendBinaryWarningText
+						input#postComment(type="checkbox")
+						label(for="postComment") #{postComment}
+						textarea#pictureComment.blockDisplay(rows="5")
+						input#postTags(type="checkbox")
+						label(for="postTags") #{postTags}
+						div.centerButtons
+							#uploadPicture
+					div#uploadIndicator
+						#uploadingMessage
+						img#uploadSpinner(src="/load.gif",class="spinner",alt="#{spinnerAlt}")
+					#tagIndicator
+						span#taggingInProgress
+						#tagProgress
+					#uploadDone
+						#allDone
+						a#uploadedPicUrl(target="_blank")
+						br
+						a#makeProfilePicUrl(target="_blank")
+						div.centerButtons
+							#closeUpload
+					#postPicToWall
+						input#postToWall(type="checkbox")
+						label(for="postToWall")
+					#uploadError
+						#uploadErrorBox(class="ui-state-error ui-corner-all")
+							p#uploadErrorBoxText
+							p#uploadErrorText
+						div.centerButtons
+							#errorCloseUpload
+			#aboutPagePane(style="display: none;",title="#{aboutPagePane}")
+				#aboutPageAccordion
+					h3
+						a#apFBpageHeader(href='#')
+					#apFBpageText
+					h3
+						a#apAboutHeader(href='#')
+					#apAboutText
+					h3
+						a#apContributeHeader(href='#')
+					#apContributeText
+					h3
+						a#apDonateHeader(href='#')
+					#apDonateText
+			script
+				var APP_CONFIG = {
+					FB_APP_ID : #{FB_APP_ID},
+					currentLang : '#{locale}',
+				};
+				loadApplication(APP_CONFIG);
+			// {{ Google +1 Button
+			script(type="text/javascript")
+				(function() {
+					var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+					po.src = 'https://apis.google.com/js/plusone.js';
+					var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+				})();
+			// }} Google +1 Button
+			noscript
+					#javascripRequired
+			include urchin.html
+
+

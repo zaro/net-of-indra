@@ -1,0 +1,6 @@
+prod_root/
+app_config.json
+app_config.prod.json
+node_modules/
+.env
+*~

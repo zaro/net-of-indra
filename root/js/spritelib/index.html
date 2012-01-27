@@ -1,0 +1,67 @@
+<!doctype html>  
+<html lang="en">  
+<head>  
+  <meta charset="utf-8">  
+  <title>Canvas test</title>  
+  <meta name="description" content="Sprites test">  
+  <meta name="author" content="me">  
+  <link rel="stylesheet" href="styles.css">  
+  <!--[if lt IE 9]>  
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>  
+  <![endif]-->
+  <script src="../../jqui/js/jquery-1.6.2.min.js"></script>
+  <script src="../util.js"></script>
+  <script src="sprite.easing.js"></script>
+  <script src="sprite.js"></script>
+  <script>
+  	var canvas;
+  	function testScene() {
+			canvas = new Canvas("testCanvas");
+			canvas.clearCanvasOnFrame = false;
+			for(var i=0;i<5; i++){
+				var c = canvas;
+				var ex =  Math.random()*500,
+						ey =  Math.random()*500;
+				var s=new FillRectSprite();
+				s.setBox(ex,ey,5,5);
+				c.addSprite( s );				
+				var s = new FillRectSprite(Math.random()*255,Math.random()*255,Math.random()*255);
+				s.setBox(canvas.width()/2,canvas.height()/2,5,5);
+				
+				var anim = new AnimateSprite(5000, {
+							'x' : {
+								'endValue': Math.random()*500,
+							},
+							'y' : {
+								'endValue': Math.random()*500,
+							},
+							'scaleX' : {
+								'endValue' : 10*Math.random(),
+							},
+							'scaleY' : {
+								'endValue' : 10*Math.random(),
+							},
+							'a' : {
+								'endValue' : 0,
+							}
+						});
+				
+				/*
+				var anim = new SpiralPathActor(5000,{
+					'x' :ex,
+					'y' :ey,
+					'numRotations' : 3.3,
+					'direction' : 'in'
+				} );
+				*/
+				s.addActor(anim);
+				c.addSprite(s);
+			}
+			canvas.startAnimation();
+		}
+  </script>
+</head>  
+<body onLoad="testScene()">
+  <canvas id="testCanvas" width="800px" height="600px" style="background:grey" ></canvas>
+</body>  
+</html> 
