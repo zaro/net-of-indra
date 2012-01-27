@@ -25,6 +25,7 @@ html
 		script(src="/jqui/js/jq_ui_custom.js")
 		each f in JS_FILES
 			script(src='#{f}')
+		include urchin.html
 	varstoreassign:
 		body
 			#fb-root(style="display: none;")
@@ -152,6 +153,6 @@ html
 			// }} Google +1 Button
 			noscript
 					#javascripRequired
-			include urchin.html
+
 
 
