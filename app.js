@@ -2,6 +2,7 @@ var connect = require('connect'),
 		path = require('path'),
 		jade = require('jade'),
 		http = require('http'),
+		https = require('https'),
 		url = require('url'),
 		nowww = require('connect-no-www'),
 		querystring = require('querystring'),
@@ -50,8 +51,6 @@ if(inProduction){
 	jadeCompile.cfg.TEMPLATE_DIR = STATIC_ROOT = STATIC_ROOT_DEV;
 }
 
-var PROXY_HOSTS = [ 'graph.facebook.com', 'fbcdn.net'];
-
 
 APP_CONFIG['JS_FILES'] = clientJsFiles(path.join(STATIC_ROOT,'js')).map(function(file){
 	return '/js/' + file;
@@ -71,6 +70,8 @@ function renderTemplate(templateName, req ,resp, vars){
 	}
 }
 
+var PROXY_HOSTS = [ 'graph.facebook.com', 'fbcdn.net'];
+var allowedFilesRe = RegExp('\.(?:jpg|png|gif)$','i');
 function httpProxy(method, headers, requestUrl, responseOut, redirect) {
 	//console.log("Proxy request for ",requestUrl);
 	//console.log("  with headers:", headers);
@@ -85,6 +86,9 @@ function httpProxy(method, headers, requestUrl, responseOut, redirect) {
 		'method' : method,
 		'headers' : headers,
 	};
+	var	isHttps = (urlObj['protocol'].indexOf('https') == 0),
+			client =  isHttps ? https : http;
+
 	if( !redirect ){
 		var found= false;
 		for(var i in PROXY_HOSTS) {
@@ -94,12 +98,15 @@ function httpProxy(method, headers, requestUrl, responseOut, redirect) {
 				break;
 			}
 		}
+		found = found || !!urlObj['pathname'].match(allowedFilesRe);
 		if ( ! found ) {
-				responseOut.statusCode = 500;
+				console.log("/proxy request rejected for " + requestUrl);
+				responseOut.statusCode = 403;
 				responseOut.end("URL not allowed :" + requestUrl);
 				return;
 		}
 	}
+
 	/* // Test for failing requests
 	if(Math.random() < 0.10) {
 		responseOut.statusCode = 503;
@@ -109,10 +116,10 @@ function httpProxy(method, headers, requestUrl, responseOut, redirect) {
 	}
 	*/
 	{
-		var agent = http.getAgent(urlObj['hostname'], urlObj['port']);
+		var agent = client.getAgent(urlObj['hostname'], urlObj['port']);
 		agent.maxSockets = 100;
 	}
-	var proxy_request = http.request(options, function(res) {
+	var proxy_request = client.request(options, function(res) {
 		//console.log("Got response " , res.statusCode, ",", typeof(res.statusCode));
 		//console.log("  headers: " , res.headers);
 		if( res.statusCode >= 400 ) {
@@ -196,17 +203,13 @@ server.use(function (req, res, next){
 			locales.push(lang.split(';', 1)[0]);
     });
     for(var i in locales) {
-    	var l= normalizeLocale(locales[i]);
-    	for(var j in APP_CONFIG['LANGS']) {
-    		var lc = APP_CONFIG['LANGS'][j].toLowerCase().replace(/_/,'-'),
-    				l  = lc.split('-')[0];
-    		if(APP_CONFIG['LANGS'][j] == l) {
-    			req.locale = APP_CONFIG['LANGS'][j];
-    			break
-    		}
-    	}
-    	if(req.locale){
-    		break;
+			var l= normalizeLocale(locales[i]);
+			//console.log("Checking for locale " +l )
+			//console.log(APP_CONFIG['LANGS'])
+			if (APP_CONFIG['LANGS'].indexOf(l) >=0 ){
+				//console.log("set " + l)
+				req.locale = l;
+				break;
     	}
     }
     if(!req.locale) {
