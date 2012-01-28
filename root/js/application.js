@@ -591,7 +591,7 @@ function loadApplication(appConfig) {
 	});
 	debugLog("Application starting...");
 	var loginSpinner = new LoginSpinner('#spinner');
-	dataProvider = new DataProviderFb(appConfig.FB_APP_ID);
+	dataProvider = new DataProviderFb(appConfig.FB_APP_ID,appConfig.currentLang);
 	dataProvider.on('fetchingStatus', loginSpinner.incUse, loginSpinner);
 	dataProvider.on('statusAvailable', function() {
 		loginSpinner.decUse();

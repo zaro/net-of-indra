@@ -1,6 +1,7 @@
 
-function DataProviderFb(fb_app_id) {
+function DataProviderFb(fb_app_id, locale) {
 	this.fbAppId = fb_app_id;
+	this.locale = locale || 'en_US';
 	this.events =  new EventHub();
 }
 
@@ -36,7 +37,7 @@ DataProviderFb.prototype = {
 			var js, fjs = d.getElementsByTagName(s)[0];
 			if (d.getElementById(id)) return;
 			js = d.createElement(s); js.id = id;
-			js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=" + fbProvider.fbAppId;
+			js.src = "//connect.facebook.net/" + fbProvider.locale + "/all.js#xfbml=1&appId=" + fbProvider.fbAppId;
 			fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'))
 
