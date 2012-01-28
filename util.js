@@ -18,7 +18,27 @@ module.exports.normalizeLocale = function(locale) {
 var appConfig = module.exports.appConfig = function(inProduction) {
 	var file = process.env.APP_CONFIG ;
 	file = file || require('fs').readFileSync(__dirname + '/app_config'+(inProduction?'.prod':'') +'.json');
-	return JSON.parse( file );
+	var cfg = JSON.parse( file );
+	var toIana = [],
+			fromIana = [],
+			toShort = [],
+			fromShort = [];
+	for (var i in cfg['LANGS']) {
+		var l = cfg['LANGS'][i],
+				iana = l.replace(/_/,'-'),
+				short = l.split('_')[0];
+		toIana[l] = iana;
+		fromIana[iana] = l;
+		toShort[l] = short;
+		fromShort[short] = l;
+	}
+	cfg['LANGS_DESC'] = {
+		toIana: toIana,
+		fromIana: fromIana,
+		toShort:  toShort,
+		fromShort: fromShort,
+	};
+	return cfg;
 }
 
 

@@ -1,5 +1,6 @@
 !!! 5
-html
+- var html5lang = LANGS_DESC.toIana[locale]
+html(lang="#{html5lang}")
 	varstore:
 		block translation_strings
 	include lang/lang_names
@@ -15,6 +16,10 @@ html
 		meta(property="og:image",content="http://indra-net.me/gems.png")
 		meta(property="og:site_name",content="#{pageName}")
 		meta(property="og:description",content="#{pageDescription}")
+		meta(name="description",content="#{pageTitle} : #{pageDescription}")
+		meta(name="author",content="A lots of people:)")
+		meta(name="revisit-after",content="7 days")
+		meta(name="keywords",content="net, network, indra, gems, mosaic, images, facebook")
 		title #{pageTitle}
 		link(href='http://fonts.googleapis.com/css?family=Ubuntu&subset=latin,cyrillic-ext,greek-ext,greek,cyrillic,latin-ext',rel='stylesheet',type='text/css')
 		link(rel="stylesheet",href="/jqui/css/custom-theme/jquery-ui-1.8.17.custom.css")
@@ -137,6 +142,12 @@ html
 					h3
 						a#apDonateHeader(href='#')
 					#apDonateText
+			div(style="display: none;")
+				// Generate links to other languages for the crawlers
+				each l in LANGS
+					- var shortLang = LANGS_DESC.toShort[l]
+					a(href="/#{shortLang}/") #{langNames[l]}
+				// I hope now bots will know that this page has translations :)
 			script
 				var APP_CONFIG = {
 					FB_APP_ID : #{FB_APP_ID},
