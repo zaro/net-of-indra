@@ -455,6 +455,7 @@ function loadApplication(appConfig) {
 	var langChooser = new LangChooser();
 	langChooser.getSelectBox().show();
 	$('#greetingMessagePane').dialog({
+		minHeight: 300,
 		autoOpen: false,
 		modal: true,
 		resizable: false,
