@@ -106,8 +106,24 @@ function uploadToFacebook() {
 						dataProvider.on('photoTagged',function( photoId, userID, response){
 							tagDone();
 						});
+						var count = 0;
+						var x=0, y=0;
 						for( var t in tags ){
-							dataProvider.tagPhoto(response.id, t);
+							x=0|(Math.random()*90), y=0|(Math.random()*90);
+
+							// Non delayed tagging
+							dataProvider.tagPhoto(response.id, t, x, y);
+							// Delayed tagging
+							/*
+							var f = (function(tag,xp, yp) {
+									return function() {
+										dataProvider.tagPhoto(response.id, tag, xp, yp);
+									}
+								})(t,x,y);
+
+							setTimeout( f, count*1000);
+							count += 1;
+							*/
 						}
 					} else {
 						uploadDone();

@@ -108,9 +108,17 @@ DataProviderFb.prototype = {
 			+ (includeAccessToken ? '?access_token=' + this.accessToken : '');
 	},
 	
-	tagPhoto: function(photoID, userID) {
+	tagPhoto: function(photoID, userID, xPerc, yPerc) {
 		var self = this;
-		FB.api('/'+photoID+'/tags?to=' + userID, 'post', function(response) {
+		var params = {}
+		if( xPerc >=0 && xPerc <=100 ){
+			params['x']= xPerc;
+		}
+		if( yPerc >=0 && yPerc <=100 ){
+			params['y'] = yPerc;
+		}
+		params['to'] = userID;
+		FB.api('/'+photoID+'/tags', 'POST', params , function(response) {
 			if (response != true && response != false) {
 				self.events.trigger('error', response ? response.error : undefined);
 			}
