@@ -89,7 +89,12 @@ function uploadToFacebook() {
 					};
 					if( tags ){
 						actionPages('#uploadToFBActions','#tagIndicator')
-						var numTags = Object.keys(tags).length;
+						var allTagIDs = Object.keys(tags);
+						// Randomize array and get only the first 50 elements
+						// as facebook allow 50 tags per picture
+						fisherYates(allTagIDs);
+						allTagIDs = allTagIDs.slice(0,50);
+						var numTags = allTagIDs.length;
 						var tagged = 0;
 						var tagDone = function() {
 							tagged += 1;
@@ -107,19 +112,20 @@ function uploadToFacebook() {
 							tagDone();
 						});
 						var count = 0;
-						var x=0, y=0;
-						for( var t in tags ){
+						var x=0, y=0, tag;
+						for( var t in allTagIDs ){
+							tagID = allTagIDs[t];
 							x=0|(Math.random()*90), y=0|(Math.random()*90);
-
 							// Non delayed tagging
-							dataProvider.tagPhoto(response.id, t, x, y);
+							dataProvider.tagPhoto(response.id, tagID, x, y);
+
 							// Delayed tagging
 							/*
 							var f = (function(tag,xp, yp) {
 									return function() {
 										dataProvider.tagPhoto(response.id, tag, xp, yp);
 									}
-								})(t,x,y);
+								})(tagID,x,y);
 
 							setTimeout( f, count*1000);
 							count += 1;
