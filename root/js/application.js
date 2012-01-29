@@ -53,7 +53,7 @@ function uploadToFacebook() {
 	if( $('#pictureComment').text().indexOf(_thisSite) <0){
 		$('#pictureComment').text($('#pictureComment').text() + ' ' + _thisSite);
 	}
-	$('#postTags').attr('checked', true);
+	$('#postTags').attr('checked', false);
 	$('#tagProgress').progressbar();
 	$('#uploadPicture').button().unbind('click').bind('click', function() {
 		var comment = null;
