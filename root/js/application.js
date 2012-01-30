@@ -40,13 +40,16 @@ function uploadToFacebook() {
 		$('#noSendBinaryWarningDiv').show();
 	}
 	actionPages('#uploadToFBActions', '#pictureCommentDiv');
-	$('#postComment').attr('checked', true).unbind('click').bind('click', function() {
+	var onPostCommentClicked = function() {
 		if($('#postComment').is(':checked')){
 			$('#pictureComment').removeAttr("disabled");
 		} else {
 			$('#pictureComment').attr("disabled", true);
 		}
-	});
+	};
+
+	$('#postComment').unbind('click').bind('click', onPostCommentClicked);
+	onPostCommentClicked();
 	$('#closeUpload').button();
 	$('#errorCloseUpload').button();
 	var _thisSite = getSiteLocation();
