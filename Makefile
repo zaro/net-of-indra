@@ -13,8 +13,24 @@ UTIL_JS=./util.js
 
 all: $(PROD_ROOT) static js-min $(HTML)
 
-deploy: clean all
-	git push  heroku  master
+deploy:
+	@if [ `git branch | sed -n -e 's/^\* \(.*\)/\1/p'` != 'master' ]; then \
+		echo "Must be run from master branch"; \
+		false; \
+	fi;
+	@echo "===> Checkout 'heroku' branch"
+	git checkout heroku
+	@echo "===> Merging 'master' branch"
+	git merge master
+	@echo "===> Making 'all' in 'heroku'"
+	make all
+	@echo "===> Commiting changes to 'heroku'"
+	git commit -a -m '...'
+	@echo "===> Push 'heroku' branch to heroku"
+	git push heroku  heroku:master
+	@echo "===> Checkout 'master' branch back"
+	git checkout master
+	@echo "===> Deploy done :)"
 
 js-min:
 	mkdir -p $(PROD_ROOT)/js/
