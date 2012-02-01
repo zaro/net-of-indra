@@ -55,7 +55,7 @@ if(inProduction){
 APP_CONFIG['JS_FILES'] = clientJsFiles(path.join(STATIC_ROOT,'js')).map(function(file){
 	return '/js/' + file;
 });
-
+APP_CONFIG['PRODUCTION'] = inProduction;
 
 function renderTemplate(templateName, req ,resp, vars){
 	try {

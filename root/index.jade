@@ -30,7 +30,8 @@ html(lang="#{html5lang}")
 		script(src="/jqui/js/jq_ui_custom.js")
 		each f in JS_FILES
 			script(src='#{f}')
-		include urchin.html
+		if PRODUCTION
+			include urchin.html
 	varstoreassign:
 		body
 			#fb-root(style="display: none;")
@@ -154,14 +155,15 @@ html(lang="#{html5lang}")
 					currentLang : '#{locale}',
 				};
 				loadApplication(APP_CONFIG);
-			// {{ Google +1 Button
-			script(type="text/javascript")
-				(function() {
-					var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-					po.src = 'https://apis.google.com/js/plusone.js';
-					var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-				})();
-			// }} Google +1 Button
+			if PRODUCTION
+				// {{ Google +1 Button
+				script(type="text/javascript")
+					(function() {
+						var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+						po.src = 'https://apis.google.com/js/plusone.js';
+						var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+					})();
+				// }} Google +1 Button
 			noscript
 					#javascripRequired
 
