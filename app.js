@@ -10,7 +10,8 @@ var connect = require('connect'),
 		clientJsFiles = require('./client_js_files').clientJsFiles,
 		jadeCompile = require('./jade_compile'),
 		normalizeLocale = require('./util').normalizeLocale,
-		appConfig = require('./util').appConfig;
+		appConfig = require('./util').appConfig,
+		loggly = require('loggly');
 
 var inProduction  = process.env.NODE_ENV == 'production';
 
@@ -56,6 +57,7 @@ APP_CONFIG['JS_FILES'] = clientJsFiles(path.join(STATIC_ROOT,'js')).map(function
 	return '/js/' + file;
 });
 APP_CONFIG['PRODUCTION'] = inProduction;
+
 
 function renderTemplate(templateName, req ,resp, vars){
 	try {
@@ -181,6 +183,10 @@ function sendJson(resp, obj) {
 	resp.end(JSON.stringify(obj));
 }
 
+var logglyLogger;
+if(APP_CONFIG['LOGGLY_CONFIG']) {
+ logglyLogger= loggly.createClient(APP_CONFIG['LOGGLY_CONFIG']);
+}
 var serverPort = process.env.PORT /*|| dotCloudEnv['PORT_NODEJS']*/  ||   3000;
 var serverHostname = process.env.HOSTNAME;
 
@@ -189,7 +195,41 @@ server.use(nowww(false));
 if( !inProduction ){
 	var fmt = 'dev';
 	server.use(connect.logger({format: fmt}));
+} else if (logglyLogger) {
+	console.log("Logging HTTP errors to loggly");
+	server.use(connect.logger(function(tokens, req, res){
+		if(res.statusCode >= 400) {
+			var logmsg = req.method
+		  + ' ' + req.originalUrl + ' '
+		  + res.statusCode
+		  + ' '
+		  + (new Date - req._startTime)
+			logglyLogger.log(APP_CONFIG['LOGGLY_CONFIG'].token, logmsg ,function(err, result){
+				if (err) {
+					console.log("Failed to log to loggly.")
+					console.log(err);
+					console.log(JSON.stringify(result));
+				}
+				//console.log("Loggly:" + JSON.stringify(result) )
+			});
+		}
+		return null;
+		/*
+		if (status >= 500) color = 31
+		else if (status >= 400) color = 33
+		else if (status >= 300) color = 36;
+
+		return '\033[90m' + req.method
+		  + ' ' + req.originalUrl + ' '
+		  + '\033[' + color + 'm' + res.statusCode
+		  + ' \033[90m'
+		  + (new Date - req._startTime)
+		  + 'ms\033[0m';
+		*/
+	}));
+
 }
+
 server.use(connect.favicon(STATIC_ROOT + 'favicon.ico'));
 server.use(connect.cookieParser());
 server.use(function (req, res, next){

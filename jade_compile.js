@@ -149,11 +149,11 @@ function getTranslatedDir(rootPath, lang){
 			dirs.push(langOnly[1]);
 		}
 		var trDir= '';
-		console.log("test " + dirs);
+		//console.log("test " + dirs);
 		for(var i in dirs) {
 			try {
 				var f = path.join(rootPath, dirs[i]);
-				console.log("test " + f);
+				//console.log("test " + f);
 				var stat = fs.statSync(f);
 				if(stat) {
 					trDir = dirs[i];
@@ -241,7 +241,8 @@ if (!module.parent) {
 			APP_CONFIG = appConfig(!argv.dev);
 			APP_CONFIG['JS_FILES'] = clientJsFiles(path.join(__dirname + '/prod_root/','js')).map(function(file){
 				return '/js/' + file;
-			});			
+			});
+			APP_CONFIG['PRODUCTION'] = true;
 	if(argv._[0]) {
 		// Deduce the locale from fileName
 		var l = path.extname(argv._[0]);

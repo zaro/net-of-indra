@@ -8,6 +8,7 @@
    "connect":         ">= 1.4.2",
    "connect-no-www" : "",
    "jade":            ">= 0.18.0",
+   "loggly":					"",
    "redis-url":       "0.0.1"
   },
   "devDependencies": {

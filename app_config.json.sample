@@ -2,5 +2,9 @@
 	"FB_APP_ID" : "",
 	"FB_APP_SECRET" : "",
 	"IMGUR_KEY" : "",
-	"LANGS" : ["en_US"]
+	"LANGS" : ["en_US"],
+	"LOGGLY_CONFIG" : {
+		"subdomain": "",
+		"token" : ""
+	}
 }
