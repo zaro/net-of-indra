@@ -382,7 +382,9 @@ function startApplication(){
 	
 	var allDone = function() {
 		actionPages('#picControlsPane','#picControls');
-		gapi.plusone.go();
+		if(typeof gapi != "undefined"){
+			gapi.plusone.go();
+		}
 		pictureChooser.init();		
 		$(window).resize();
 		painter.initBrushes();
