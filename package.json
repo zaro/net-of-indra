@@ -4,10 +4,10 @@
   "engines": ["node >= 0.4.0"] ,
   "main": "app.js" ,
   "dependencies":
-  {
-   "connect":         "^1.4.2",
+  { 
+   "connect":         "1.8.x",
    "connect-no-www" : "",
-   "jade":            "^0.18.0",
+   "jade":            "0.18.x",
    "loggly":					"",
    "redis-url":       "0.0.1"
   },
