@@ -48,7 +48,7 @@ js-min:
 	for f in $(PROD_ROOT)js/* ; do \
 			if [ -f $$f ] ; then \
 				echo Uglifying $$f;\
-				echo 'SKIP' uglifyjs $(UGLIFYJS_OPTS) --output $$f.min.js $$f \&\& mv $$f.min.js $$f;\
+				node_modules/.bin/uglifyjs $$f $(UGLIFYJS_OPTS)  --output $$f; \
 			fi;\
 		done;
 
