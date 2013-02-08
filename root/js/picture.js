@@ -8,6 +8,8 @@ function Picture(receiver, tag, picInfo) {
 	this.avgGreen = 0;
 	this.avgBlue = 0;
 	this.useCount = 0;
+	// Allow cross origin resourse sharing
+	this.img.crossOrigin = "anonymous";
 	// Now trigger image download
 	this.img.onload = function() {
 		receiver.imageLoaded(userPic, tag);
