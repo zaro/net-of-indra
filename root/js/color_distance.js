@@ -55,13 +55,12 @@ ColorDistance.prototype = {
 		}
 		*/
 	},
-	
+
 	getClosest: function() {
 		return this.values[0];
 	},
-	
+
 	getRandom: function() {
 		return this.values[Math.floor(this.values.length*Math.random()) ];
 	},
-}
-
+};

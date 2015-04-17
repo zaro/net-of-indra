@@ -3,7 +3,7 @@ DEV_ROOT = root/
 PROD_ROOT = prod_root/
 JADE = $(DEV_ROOT)index.jade
 IGNORE_IN_PROD=.* *~ *.jade js_dir.json
-UGLIFYJS_OPTS=-b -nm -nmf -ns 
+UGLIFYJS_OPTS=-b
 
 HTML = $(JADE:.jade=.html)
 IGNORE_STATIC = $(foreach f,$(IGNORE_IN_PROD),! -name '$f')
@@ -48,7 +48,7 @@ js-min:
 	for f in $(PROD_ROOT)js/* ; do \
 			if [ -f $$f ] ; then \
 				echo Uglifying $$f;\
-				uglifyjs $(UGLIFYJS_OPTS) --overwrite $$f; \
+				echo 'SKIP' uglifyjs $(UGLIFYJS_OPTS) --output $$f.min.js $$f \&\& mv $$f.min.js $$f;\
 			fi;\
 		done;
 

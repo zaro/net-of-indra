@@ -30,14 +30,14 @@ function VarStoreVisitor(node, options) {
 // Inherit from Compiler
 VarStoreVisitor.prototype.__proto__ = Compiler.prototype;
 
-// Overwrite visitTag method 
+// Overwrite visitTag method
 VarStoreVisitor.prototype.visitTag = function(node){
     var parent = Compiler.prototype.visitTag;
 		var id = node.getAttribute('id');
 		if(id) {
   		id = id.replace(/^[\"']/,'');
   		id = id.replace(/[\"']$/,'');
-  		id = id.replace(/-/g,'_');	  		
+  		id = id.replace(/-/g,'_');
   		var val = '';
   		if (node.text) {
   		 val += utils.escape(node.text.nodes[0].trimLeft());
@@ -56,7 +56,7 @@ VarStoreVisitor.prototype.visitTag = function(node){
 								, '} catch (err) {'
 								, '  rethrow(err, __jade[0].filename, __jade[0].lineno);'
 								, '}'
-						].join('\n')								
+						].join('\n')
 			  	,	fn = new Function('locals, attrs, escape, rethrow', fnBody);
 			  val += utils.escape(fn(undefined, runtime.attrs, runtime.escape, runtime.rethrow)).replace(/\n/g, '\\n');
   		}
@@ -115,11 +115,11 @@ VarStoreAssign.prototype.visitTag = function(tag){
       if (tag.text) {
       	this.buffer(utils.text(tag.text.nodes[0].trimLeft()));
       } else {
-    		var id = tag.getAttribute('id');    		
+    		var id = tag.getAttribute('id');
 				if ( (tag.block.nodes.length == 0) && id ) {
 		  		id = id.replace(/^[\"']/,'');
 		  		id = id.replace(/[\"']$/,'');
-		  		id = id.replace(/-/g,'_');	  		
+		  		id = id.replace(/-/g,'_');
 					var code = '!{(typeof('+id+')!="undefined"?'+id+':"")}';
       		this.buffer(utils.text(code));
 				}
@@ -169,7 +169,7 @@ function getTranslatedDir(rootPath, lang){
 function getTranslatedFile(templateName , lang) {
 	var dir;
 	if(path.extname(templateName) == cfg.TEMPLATE_EXT) {
-		dir = path.dirname(templateName);	
+		dir = path.dirname(templateName);
 		var p = path.basename(templateName);
 		templateName = p.replace(cfg.TEMPLATE_EXT,'');
 	} else {
@@ -233,10 +233,10 @@ module.exports.getTranslatedDir = getTranslatedDir;
 module.exports.cfg = cfg;
 
 if (!module.parent) {
-	var argv = require('optimist').argv,
-			sys = require('sys'),
+	var argv = require('optimist').argv;
+	var	sys = require('sys'),
 			normalizeLocale = require('./util').normalizeLocale,
-			jsRoot = path.join(argv._[1], '/'),
+			jsRoot = path.join(argv._[1] || "", '/'),
 			clientJsFiles = require('./client_js_files').clientJsFiles,
 			APP_CONFIG = appConfig(!argv.dev);
 			APP_CONFIG['JS_FILES'] = clientJsFiles(path.join(__dirname + '/prod_root/','js')).map(function(file){
