@@ -67,7 +67,7 @@ ImageLoader.prototype._allTagsLoaded = function() {
 	for(var tag in this.imagesLoaded){
 		if(!(this.imgesLoadingFinished[tag] && this.imagesLoaded[tag] == this.imagesToLoad[tag])) {
 			allDone = false;
-		}	
+		}
 	}
 	if(allDone){
 		debugLog("ImageLoader invoking allDone");
@@ -109,8 +109,8 @@ ImageLoader.prototype.imageLoadFailed = function (pic, tag) {
 	} else {
 		debugLog("  Retry limit reached. ["+ pic.imgDlRetried+"] - "+t);
 	}
-	
-	
+
+
 	this.imagesLoaded[tag] += 1;
 	this._fireFailed$(tag, pic, this.imagesLoaded[tag], this.imagesToLoad[tag]);
 	this._fireProgressUpdate$All(this.getProgressStat());
@@ -121,6 +121,5 @@ ImageLoader.prototype.imageLoaded = function (pic, tag) {
 	this.imagesLoaded[tag] += 1;
 	this._fireLoaded$(tag, pic, this.imagesLoaded[tag], this.imagesToLoad[tag]);
 	this._fireProgressUpdate$All(this.getProgressStat());
-	this._allLoaded(tag);		
+	this._allLoaded(tag);
 }
-

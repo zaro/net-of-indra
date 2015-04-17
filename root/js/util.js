@@ -1,6 +1,6 @@
 debugLog = function () {
     if (window.console != undefined) {
-        console.log.apply(this,arguments);
+        console.log.apply(console,arguments);
     }
 }
 
@@ -43,9 +43,9 @@ function actionPages(id, activePage) {
 	}
 }
 
-function randomInt(max,min)  {  
+function randomInt(max,min)  {
 	min = min || 0;
-	return Math.floor(Math.random() * (max - min + 1)) + min;  
+	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function fitImage(img, maxW, maxH){
