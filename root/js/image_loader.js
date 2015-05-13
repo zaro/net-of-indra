@@ -13,7 +13,7 @@ ImageLoader.getLoader = function() {
 }
 
 ImageLoader.prototype.getProxyForURL = function(url){
-	return "/proxy/" + escape(url);
+	return "/proxy/" + encodeURIComponent(url);
 	//return url;
 }
 

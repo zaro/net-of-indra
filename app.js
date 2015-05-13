@@ -26,7 +26,7 @@ try {
 
 /*
 var redisURL = process.env.REDISTOGO_URL || dotCloudEnv['DOTCLOUD_DB_REDIS_URL'];
-		
+
 var imgStore = require('./redis_img_store').createStore(redisURL);
 */
 
@@ -35,7 +35,7 @@ var	STATIC_ROOT_DEV = __dirname + '/root/',
   	STATIC_ROOT,
  		STATIC_MAX_AGE = inProduction ? 86400000 : 0, // One day
  		DEFAULT_LOCALE = 'en_US';
- 		
+
 jadeCompile.cfg.TEMPLATE_EXT  = '.jade';
 jadeCompile.cfg.TEMPLATE_CACHING = inProduction ? true : false;
 
@@ -113,7 +113,7 @@ function httpProxy(method, headers, requestUrl, responseOut, redirect) {
 	if(Math.random() < 0.10) {
 		responseOut.statusCode = 503;
 		responseOut.setHeader('Retry-After', '10');
-		responseOut.end("Forced error");	
+		responseOut.end("Forced error");
 		return;
 	}
 	*/
@@ -126,7 +126,7 @@ function httpProxy(method, headers, requestUrl, responseOut, redirect) {
 		//console.log("  headers: " , res.headers);
 		if( res.statusCode >= 400 ) {
 			console.log("Error ", res.statusCode, " while retrieving ", requestUrl);
-		} 
+		}
 		switch(res.statusCode) {
 			case 300:
 			case 301:
@@ -154,14 +154,14 @@ function httpProxy(method, headers, requestUrl, responseOut, redirect) {
 			responseOut.end();
 		});
 	});
-	
+
 	proxy_request.on('error', function (e) {
 		responseOut.statusCode = 503;
 		responseOut.setHeader('Retry-After', '10');
 		responseOut.end();
 	});
 
-	proxy_request.end();	
+	proxy_request.end();
 
 }
 
@@ -293,7 +293,7 @@ server.use(connect.static(STATIC_ROOT, { maxAge: STATIC_MAX_AGE }))
 						});
 					}
 					app.get(new RegExp('/proxy/(.*)'), function (req, resp) {
-						httpProxy('GET', req.headers, querystring.unescape(req.params[0]), resp)
+						httpProxy('GET', req.headers, decodeURIComponent(req.params[0]), resp)
 					});
 					/*
 					app.post('/download',function (req, resp) {
@@ -310,7 +310,7 @@ server.use(connect.static(STATIC_ROOT, { maxAge: STATIC_MAX_AGE }))
 							resp.end("Unsupported image data type :" + mimeType);
 						}
 					});
-					*/		
+					*/
 					app.post('/putImg',function (req, resp) {
 						var buf = req.body.image;
 						if(buf) {
@@ -332,7 +332,7 @@ server.use(connect.static(STATIC_ROOT, { maxAge: STATIC_MAX_AGE }))
 								pres.setEncoding('utf8');
 								var response = "";
 								pres.on('data', function (chunk) {
-									//console.log('ImgUr data: ' + chunk);								
+									//console.log('ImgUr data: ' + chunk);
 									response += chunk;
 								});
 								pres.on('end', function() {
@@ -367,7 +367,7 @@ server.use(connect.static(STATIC_ROOT, { maxAge: STATIC_MAX_AGE }))
 							});
 							res.on('end', function () {
 								resp.end();
-							});						
+							});
 							//console.log("Got response: " + res.statusCode);
 						}).on('error', function(e) {
 							console.log("/delImg Got error: " + e.message);
@@ -377,4 +377,3 @@ server.use(connect.static(STATIC_ROOT, { maxAge: STATIC_MAX_AGE }))
 server.listen(serverPort/*, serverHostname*/);
 console.log('Running in ' + (inProduction?'production':'development') + ' mode.');
 console.log('Listening on http://' + (serverHostname?serverHostname:'0.0.0.0') + ':' + serverPort + '/');
-
