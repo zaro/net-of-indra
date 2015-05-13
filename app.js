@@ -118,9 +118,9 @@ function httpProxy(method, headers, requestUrl, responseOut, redirect) {
 	}
 	*/
 	{
-		var agent = client.getAgent(urlObj['hostname'], urlObj['port']);
-		agent.maxSockets = 100;
+		http.globalAgent.maxSockets = 1024;
 	}
+
 	var proxy_request = client.request(options, function(res) {
 		//console.log("Got response " , res.statusCode, ",", typeof(res.statusCode));
 		//console.log("  headers: " , res.headers);
