@@ -50,7 +50,7 @@ html(lang="#{html5lang}")
 					#enterButtons.centerButtons
 						img#spinner(src="/load.gif",class="spinner",alt="#{spinnerAlt}")
 						#enterButton(style="visibility: hidden;")
-						div#fbLogin.centeredButton(scope="read_friendlists,publish_stream,user_photos",class="fb-login-button",style="display: none;",locale="#{locale}")
+						div#fbLogin.centeredButton(scope="read_friendlists,publish_actions,user_photos",class="fb-login-button",style="display: none;",locale="#{locale}")
 			#mainDiv(class="ui-widget ui-widget-content ui-corner-all",style="display: none;")
 				div#picControlsPane(class="ui-widget ui-widget-content ui-corner-all")
 					#pcImagesLoading
@@ -166,6 +166,3 @@ html(lang="#{html5lang}")
 				// }} Google +1 Button
 			noscript
 					#javascripRequired
-
-
-
