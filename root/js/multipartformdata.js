@@ -288,8 +288,6 @@ var MultiPartFormData = (function() {
 					var ui8a = new Uint8Array(data, 0);
 					for (var i = 0; i < text.length; i++) ui8a[i] = (text.charCodeAt(i) & 0xff);
 
-					var bb = new bbFunc();
-					bb.append(data);
 					var blob = new Blob([data]);
 					this.send(blob);
 				}
