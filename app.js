@@ -16,16 +16,7 @@ var connect = require('connect'),
 var inProduction  = process.env.NODE_ENV == 'production';
 
 /*
-var dotCloudEnv = {};
-try {
-	dotCloudEnv = JSON.parse(fs.readFileSync('/home/dotcloud/environment.json', 'utf-8'));
-	console.log('dotCloud Application Name: ' + dotCloudEnv['DOTCLOUD_SERVICE_NAME']);
-} catch(e) {
-}
-*/
-
-/*
-var redisURL = process.env.REDISTOGO_URL || dotCloudEnv['DOTCLOUD_DB_REDIS_URL'];
+var redisURL = process.env.REDISTOGO_URL ;
 
 var imgStore = require('./redis_img_store').createStore(redisURL);
 */
@@ -187,7 +178,7 @@ var logglyLogger;
 if(APP_CONFIG['LOGGLY_CONFIG']) {
  logglyLogger= loggly.createClient(APP_CONFIG['LOGGLY_CONFIG']);
 }
-var serverPort = process.env.PORT /*|| dotCloudEnv['PORT_NODEJS']*/  ||   3000;
+var serverPort = process.env.PORT ||   3000;
 var serverHostname = process.env.HOSTNAME;
 
 var server = connect.createServer();
