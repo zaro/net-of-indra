@@ -111,18 +111,18 @@ var MultiPartFormData = (function() {
 	*  http://www.webtoolkit.info/
 	*
 	**/
-	 
+
 	var Utf8 = {
-	 
+
 		// public method for url encoding
 		encode : function (string) {
 			string = string.replace(/\r\n/g,"\n");
 			var utftext = "";
-	 
+
 			for (var n = 0; n < string.length; n++) {
-	 
+
 				var c = string.charCodeAt(n);
-	 
+
 				if (c < 128) {
 					utftext += String.fromCharCode(c);
 				}
@@ -135,22 +135,22 @@ var MultiPartFormData = (function() {
 					utftext += String.fromCharCode(((c >> 6) & 63) | 128);
 					utftext += String.fromCharCode((c & 63) | 128);
 				}
-	 
+
 			}
-	 
+
 			return utftext;
 		},
-	 
+
 		// public method for url decoding
 		decode : function (utftext) {
 			var string = "";
 			var i = 0;
 			var c = c1 = c2 = 0;
-	 
+
 			while ( i < utftext.length ) {
-	 
+
 				c = utftext.charCodeAt(i);
-	 
+
 				if (c < 128) {
 					string += String.fromCharCode(c);
 					i++;
@@ -166,13 +166,13 @@ var MultiPartFormData = (function() {
 					string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
 					i += 3;
 				}
-	 
+
 			}
-	 
+
 			return string;
 		}
-	 
-	}	
+
+	}
 	// UTF8 <<
 
 	var multiPartFormData = function () {
@@ -186,17 +186,21 @@ var MultiPartFormData = (function() {
 
 	}
 	multiPartFormData.supported = function() {
-		return multiPartFormData.hasSendAsBinary() || multiPartFormData.hasBlobBuilder();
+		return multiPartFormData.hasBlob() || multiPartFormData.hasSendAsBinary() || multiPartFormData.hasBlobBuilder();
 	}
 	multiPartFormData.hasBlobBuilder = function () {
-		return	(typeof WebKitBlobBuilder == "function") || 
-				 		(typeof MozKitBlobBuilder == "function") || 
-						(typeof MsKitBlobBuilder == "function") || 
+		return	(typeof WebKitBlobBuilder == "function") ||
+				 		(typeof MozKitBlobBuilder == "function") ||
+						(typeof MsKitBlobBuilder == "function") ||
 						(typeof BlobBuilder == "function") ;
 	};
 	multiPartFormData.hasSendAsBinary = function () {
 		return typeof XMLHttpRequest.prototype.sendAsBinary == "function";
 	};
+	multiPartFormData.hasBlob = function () {
+		return typeof Blob == "function";
+	};
+
 	multiPartFormData.prototype = {
 		addBase64File: function (name, data, mimeType) {
 			var decoded = base64decode(data);
@@ -277,22 +281,34 @@ var MultiPartFormData = (function() {
 					var blob = bb.getBlob();
 					this.send(blob);
 				}
+			}	else if(multiPartFormData.hasBlob()) {
+				// http://javascript0.org/wiki/Portable_sendAsBinary
+				XMLHttpRequest.prototype.sendAsBinary = function(text){
+					var data = new ArrayBuffer(text.length);
+					var ui8a = new Uint8Array(data, 0);
+					for (var i = 0; i < text.length; i++) ui8a[i] = (text.charCodeAt(i) & 0xff);
+
+					var bb = new bbFunc();
+					bb.append(data);
+					var blob = new Blob([data]);
+					this.send(blob);
+				}
 			} else {
 				throw new Error('This browser cannot send binary XMLHTTPRequest');
 			}
-				
-			xhr.onreadystatechange = function (aEvt) {  
-				if (xhr.readyState == 4) {  
-					 if (xhr.status == 200) { 
+
+			xhr.onreadystatechange = function (aEvt) {
+				if (xhr.readyState == 4) {
+					 if (xhr.status == 200) {
 						 onSuccess(xhr.responseText, xhr.statusText);
 					 }else{
 						 onError(xhr.responseText, xhr.statusText);
 					 }
-				}  
+				}
 			};
-	
+
 			xhr.setRequestHeader('Content-Type', this.getContentType());
-			xhr.sendAsBinary(data);	
+			xhr.sendAsBinary(data);
 		}
 
 	}
