@@ -100,7 +100,7 @@ html(lang="#{html5lang}")
 					#pictureCommentDiv
 						#noSendBinaryWarningDiv(style="display: none;",class="ui-state-highlight ui-corner-all")
 							#noSendBinaryWarningText
-						input#postComment(type="checkbox")
+						input#postComment(type="checkbox", checked="checked")
 						label(for="postComment") #{postComment}
 						textarea#pictureComment.blockDisplay(rows="5")
 						//input#postTags(type="checkbox")
@@ -115,9 +115,9 @@ html(lang="#{html5lang}")
 						#tagProgress
 					#uploadDone
 						#allDone
+						br
 						a#uploadedPicUrl(target="_blank")
 						br
-						a#makeProfilePicUrl(target="_blank")
 						div.centerButtons
 							#closeUpload
 					#postPicToWall
